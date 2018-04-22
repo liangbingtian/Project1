@@ -1,11 +1,14 @@
 package com.example.latteec.main.cart;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,18 +31,23 @@ import butterknife.OnClick;
  * Created by liangbingtian on 2018/4/19.
  */
 
-public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
+public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
+,ICartItemListener{
 
     private ShopCartAdapter mAdapter = null;
     //购物车数量标记
     private int mCurrentCount = 0;
     private int mTotalCount = 0;
-
+    private double mTotalPrice = 0.00;
 
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView = null;
     @BindView(R2.id.icon_shop_cart_select_all)
     IconTextView mIconSelectAll = null;
+    @BindView(R2.id.stub_no_item)
+    ViewStubCompat mStubNoItem = null;
+    @BindView(R2.id.tv_shop_cart_total_price)
+    AppCompatTextView mTvTotalPrice = null;
 
     @OnClick(R2.id.icon_shop_cart_select_all)
     void onClickSelectAll() {
@@ -56,6 +65,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             mAdapter.setIsSelectedAll(false);
             mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount());
         }
+
+        checkItemCount();
     }
 
     @OnClick(R2.id.tv_top_shop_cart_remove_selected)
@@ -77,7 +88,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             } else {
                 removePosition = entityPosition;
             }
-            if (removePosition <= mAdapter.getItemCount()){
+            if (removePosition <= mAdapter.getItemCount()) {
                 mAdapter.remove(removePosition);
                 mCurrentCount = mAdapter.getItemCount();
                 //更新数据
@@ -87,9 +98,42 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
     }
 
     @OnClick(R2.id.tv_top_shop_cart_clear)
-    void onClickClear(){
+    void onClickClear() {
         mAdapter.getData().clear();
         mAdapter.notifyDataSetChanged();
+        checkItemCount();
+    }
+
+    @OnClick(R2.id.tv_shop_cart_pay)
+    void onClickPay(){
+
+    }
+
+    //创建订单
+    private void createOrder(){
+        final String orderUrl = "";
+        final WeakHashMap<String,Object> orderParams = new WeakHashMap<>();
+        orderParams.put("userid",213);
+        orderParams.put("comment","测试支付");
+        orderParams.put("type",1);
+        orderParams.put("ordertype",0);
+    }
+
+    private void checkItemCount() {
+        final int count = mAdapter.getItemCount();
+        if (count == 0) {
+            @SuppressLint("RestrictedApi") final View studView = mStubNoItem.inflate();
+            final AppCompatTextView tvToBuy = studView.findViewById(R.id.tv_stub_to_buy);
+            tvToBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "该购物了！", Toast.LENGTH_SHORT).show();
+                }
+            });
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -121,8 +165,18 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
                         .setJsonData(response)
                         .convert();
         mAdapter = new ShopCartAdapter(data);
+        mAdapter.setCartItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        mTotalPrice = mAdapter.getTotalPrice();
+        mTvTotalPrice.setText(String.valueOf(mTotalPrice));
+        checkItemCount();
+    }
+
+    @Override
+    public void onItemClick(double itemTotalPrice) {
+        final double price = mAdapter.getTotalPrice();
+        mTvTotalPrice.setText(String.valueOf(price));
     }
 }

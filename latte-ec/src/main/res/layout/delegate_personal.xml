@@ -15,12 +15,13 @@
             android:layout_height="160dp"
             android:background="@android:color/holo_orange_dark">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_user_avatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
+                android:src="@mipmap/icon_02"
                  />
 
             <TextView
@@ -198,6 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp" />
+
     </LinearLayout>
 
 </ScrollView>

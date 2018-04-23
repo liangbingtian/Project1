@@ -12,6 +12,7 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latteec.launcher.LauncherDelegate;
+import com.example.latteec.launcher.LauncherScrollDelegate;
 import com.example.latteec.main.EcBottomDelegate;
 import com.example.latteec.main.index.IndexDelegate;
 import com.example.latteec.sign.ISignListener;
@@ -42,7 +43,7 @@ public class ExampleActivity extends ProxyActivity
     @Override
     public LatteDelegate setRootDelegate() {
 
-        return new EcBottomDelegate();
+        return new LauncherDelegate();
     }
 
     @Override
@@ -60,11 +61,11 @@ public class ExampleActivity extends ProxyActivity
         switch (tag){
             case SIGNED:
 //                Toast.makeText(this,"启动结束，用户登录了",Toast.LENGTH_LONG).show();
-                startWithPop(new EcBottomDelegate());
+                start(new EcBottomDelegate());
                 break;
             case NOT_SIGNED:
 //                Toast.makeText(this,"启动结束，用户未登录",Toast.LENGTH_LONG).show();
-                startWithPop(new SignInDelegate());
+                start(new SignInDelegate());
                 break;
             default:
                 break;

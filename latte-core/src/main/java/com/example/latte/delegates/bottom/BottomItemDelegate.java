@@ -1,7 +1,4 @@
 package com.example.latte.delegates.bottom;
-
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.latte.R;
@@ -10,6 +7,7 @@ import com.example.latte.delegates.LatteDelegate;
 
 /**
  * Created by liangbingtian on 2018/4/3.
+ * 第二次修改过
  */
 
 public abstract class BottomItemDelegate extends LatteDelegate{

@@ -27,6 +27,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by liangbingtian on 2018/4/8.
@@ -46,6 +47,11 @@ public class IndexDelegate extends BottomItemDelegate {
     AppCompatEditText mSearchView = null;
 
     private RefreshHandler mRefreshHandler = null;
+
+    @OnClick(R2.id.icon_index_scan)
+    void onClickScanQrCode(){
+
+    }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {

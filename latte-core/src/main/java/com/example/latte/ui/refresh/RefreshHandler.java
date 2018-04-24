@@ -3,12 +3,10 @@ package com.example.latte.ui.refresh;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.latte.app.Latte;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.DataConverter;
@@ -19,7 +17,7 @@ import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
  */
 
 public class RefreshHandler implements SwipeRefreshLayout.OnRefreshListener
-,BaseQuickAdapter.RequestLoadMoreListener{
+        , BaseQuickAdapter.RequestLoadMoreListener {
 
     private final SwipeRefreshLayout REFRESH_LAYOUT;
 
@@ -39,7 +37,7 @@ public class RefreshHandler implements SwipeRefreshLayout.OnRefreshListener
         REFRESH_LAYOUT.setOnRefreshListener(this);
     }
 
-    public static RefreshHandler create(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter dataConverter){
+    public static RefreshHandler create(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter dataConverter) {
         return new RefreshHandler(swipeRefreshLayout, recyclerView, dataConverter, new PagingBean());
     }
 
@@ -66,13 +64,45 @@ public class RefreshHandler implements SwipeRefreshLayout.OnRefreshListener
                                 .setPageSize(object.getInteger("page_size"));
                         //设置Adapter
                         mAdapter = MultipleRecyclerAdapter.create(CONVERTER.setJsonData(response));
-                        mAdapter.setOnLoadMoreListener(RefreshHandler.this,RECYCLEVIEW);
+                        mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLEVIEW);
                         RECYCLEVIEW.setAdapter(mAdapter);
                         BEAN.addIndex();
                     }
                 })
                 .build()
                 .get();
+    }
+
+    private void paging(final String url) {
+        final int pageSize = BEAN.getPageSize();
+        final int currentCount = BEAN.getCurrentCount();
+        final int total = BEAN.getTotal();
+        final int index = BEAN.getPageIndex();
+
+        if (mAdapter.getData().size() < pageSize || currentCount >= total) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            HANDLER.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RestClient.builder()
+                            .url(url + index)
+                            .success(new ISuccess() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    mAdapter.addData(CONVERTER.setJsonData(response).convert());
+                                    //累加数量
+                                    BEAN.setCurrentCount(mAdapter.getData().size());
+                                    mAdapter.loadMoreComplete();
+                                    BEAN.addIndex();
+                                }
+                            })
+                            .build()
+                            .get();
+                }
+            }, 1000);
+        }
+
     }
 
     @Override
@@ -82,6 +112,6 @@ public class RefreshHandler implements SwipeRefreshLayout.OnRefreshListener
 
     @Override
     public void onLoadMoreRequested() {
-
+        paging("index_2_data.json?index=");
     }
 }

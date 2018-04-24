@@ -10,10 +10,12 @@ import android.view.View;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.personal.address.AddressDelegate;
 import com.example.latteec.main.personal.list.ListAdapter;
 import com.example.latteec.main.personal.list.ListBean;
 import com.example.latteec.main.personal.list.ListItemType;
 import com.example.latteec.main.personal.order.OrderListDelegate;
+import com.example.latteec.main.personal.profile.UserProfileDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,11 @@ public class PersonalDelegate extends BottomItemDelegate {
         startOrderListByType();
     }
 
+    @OnClick(R2.id.img_user_avatar)
+    void onClickAvatar() {
+        getParentDelegate().getSupportDelegate().start(new UserProfileDelegate());
+    }
+
     private void startOrderListByType() {
         final OrderListDelegate delegate = new OrderListDelegate();
         delegate.setArguments(mArgs);
@@ -63,6 +70,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         final ListBean address = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(1)
+                .setLatteDelegate(new AddressDelegate())
                 .setText("收货地址")
                 .build();
 
@@ -81,7 +89,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         mRvSettings.setLayoutManager(manager);
         final ListAdapter adapter = new ListAdapter(data);
         mRvSettings.setAdapter(adapter);
-
+        mRvSettings.addOnItemTouchListener(new PersonalOnClickListener(this));
 
     }
 }

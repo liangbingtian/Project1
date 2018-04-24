@@ -22,6 +22,7 @@ import com.example.latte.ui.refresh.RefreshHandler;
 import com.example.latteec.R;
 import com.example.latteec.R2;
 import com.example.latteec.main.EcBottomDelegate;
+import com.example.latteec.main.index.search.SearchDelegate;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
  * Created by liangbingtian on 2018/4/8.
  */
 
-public class IndexDelegate extends BottomItemDelegate {
+public class IndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener{
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -92,4 +93,10 @@ public class IndexDelegate extends BottomItemDelegate {
         return R.layout.delegate_index;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+        }
+    }
 }

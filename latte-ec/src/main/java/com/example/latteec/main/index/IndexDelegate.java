@@ -57,7 +57,7 @@ public class IndexDelegate extends BottomItemDelegate implements View.OnFocusCha
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter());
-
+        mSearchView.setOnFocusChangeListener(this);
     }
 
     private void initRefreshLayout() {

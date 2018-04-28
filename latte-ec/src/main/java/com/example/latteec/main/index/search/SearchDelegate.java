@@ -20,6 +20,7 @@ import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.util.storage.LattePreference;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.SearchResult.SearchResultDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class SearchDelegate extends LatteDelegate {
                         final String searchItemText = mSearchEdit.getText().toString();
                         saveItem(searchItemText);
                         mSearchEdit.setText("");
-                        //搜索成功后的UI
+                        getSupportDelegate().startWithPop(new SearchResultDelegate());
                     }
                 })
                 .build()

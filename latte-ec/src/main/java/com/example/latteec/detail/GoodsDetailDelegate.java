@@ -120,7 +120,7 @@ public class GoodsDetailDelegate extends LatteDelegate
         final Bundle args = getArguments();
         if (args != null) {
             mGoodsId = args.getInt(ARG_GOODS_ID);
-//            Toast.makeText(getContext(), "商品ID" + mGoodsId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "商品ID" + mGoodsId, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -161,8 +161,7 @@ public class GoodsDetailDelegate extends LatteDelegate
 
     private void initData() {
         RestClient.builder()
-                .url("goods_detail_data_1.json")
-//                .params("","")
+                .url("goods_detail_data_"+mGoodsId+".json")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override

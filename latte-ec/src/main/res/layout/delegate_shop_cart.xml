@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="@color/app_main"
+        android:background="@android:color/holo_blue_dark"
         android:gravity="center">
 
         <RelativeLayout
@@ -101,7 +101,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="全选"
-                android:textColor="@color/app_main" />
+                android:textColor="@android:color/holo_blue_dark" />
         </android.support.v7.widget.LinearLayoutCompat>
         <!--全选部分结束-->
 
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:gravity="center|left"
                 android:text="￥0.01"
-                android:textColor="@color/app_main"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="20sp"
                 tools:ignore="HardcodedText,RtlHardcoded" />
 
@@ -140,7 +140,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/app_main"
+            android:background="@android:color/holo_blue_dark"
             android:gravity="center"
             android:text="结算"
             android:textColor="@android:color/white"

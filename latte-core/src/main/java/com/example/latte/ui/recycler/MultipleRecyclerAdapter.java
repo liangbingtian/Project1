@@ -114,6 +114,10 @@ public class MultipleRecyclerAdapter extends
         return getData().get(position).getField(MultipleFields.SPAN_SIZE);
     }
 
+    public int getId(int position){
+        return getData().get(position).getField(MultipleFields.ID);
+    }
+
     @Override
     public void onItemClick(int position) {
 

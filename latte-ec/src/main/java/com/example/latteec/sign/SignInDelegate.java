@@ -15,6 +15,7 @@ import com.example.latte.wechat.LatteWeChat;
 import com.example.latte.wechat.callbacks.IWeChatSignInCallback;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.EcBottomDelegate;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +57,7 @@ public class SignInDelegate extends LatteDelegate {
                      .build()
                      .post();
          }
+         getSupportDelegate().start(new EcBottomDelegate());
     }
 
     @OnClick(R2.id.icon_sign_in_wechat)

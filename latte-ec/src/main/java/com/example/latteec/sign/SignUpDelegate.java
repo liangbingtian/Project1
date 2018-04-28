@@ -55,6 +55,7 @@ public class SignUpDelegate extends LatteDelegate {
         if (checkForm()) {
             RestClient.builder()
                     .url("http://172.20.10.8/RestServer/data/user_profile.json")
+//                    .url("http://172.20.10.8:8088/userProfile/signUp.do")
                     .params("name", mName.getText().toString())
                     .params("email", mEmail.getText().toString())
                     .params("phone", mPhone.getText().toString())
@@ -62,7 +63,7 @@ public class SignUpDelegate extends LatteDelegate {
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
-                            LatteLogger.json("USER_PROFILE", response);
+                            Log.e("user", response);
                             SignHandler.onSignUp(response, mISignListener);
                         }
                     })

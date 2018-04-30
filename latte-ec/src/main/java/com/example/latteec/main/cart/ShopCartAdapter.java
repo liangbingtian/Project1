@@ -123,22 +123,26 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View view) {
                         final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        final int goodId = entity.getField(MultipleFields.ID);
                         if (Integer.parseInt(tvCount.getText().toString()) > 1) {
+
+                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                            countNum--;
+                            tvCount.setText(String.valueOf(countNum));
+                            if (mCartItemListener != null) {
+                                mTotalPrice = mTotalPrice - price;
+                                final double itemTotal = countNum * price;
+                                mCartItemListener.onItemClick(itemTotal);
+                            }
                             RestClient.builder()
-                                    .url("about.json")
+                                    .url("http://172.20.10.8:8088/userCart/change.do")
                                     .loader(mContext)
+                                    .params("goodId",goodId)
                                     .params("count", currentCount)
                                     .success(new ISuccess() {
                                         @Override
                                         public void onSuccess(String response) {
-                                            int countNum = Integer.parseInt(tvCount.getText().toString());
-                                            countNum--;
-                                            tvCount.setText(String.valueOf(countNum));
-                                            if (mCartItemListener != null) {
-                                                mTotalPrice = mTotalPrice - price;
-                                                final double itemTotal = countNum * price;
-                                                mCartItemListener.onItemClick(itemTotal);
-                                            }
+
                                         }
                                     })
                                     .build()
@@ -151,21 +155,24 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View view) {
                         final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        final int goodId = entity.getField(MultipleFields.ID);
+                        int countNum = Integer.parseInt(tvCount.getText().toString());
+                        countNum++;
+                        tvCount.setText(String.valueOf(countNum));
+                        if (mCartItemListener != null) {
+                            mTotalPrice = mTotalPrice + price;
+                            final double itemTotal = countNum * price;
+                            mCartItemListener.onItemClick(itemTotal);
+                        }
                         RestClient.builder()
-                                .url("about.json")
+                                .url("http://172.20.10.8:8088/userCart/change.do")
                                 .loader(mContext)
+                                .params("goodId",goodId)
                                 .params("count", currentCount)
                                 .success(new ISuccess() {
                                     @Override
                                     public void onSuccess(String response) {
-                                        int countNum = Integer.parseInt(tvCount.getText().toString());
-                                        countNum++;
-                                        tvCount.setText(String.valueOf(countNum));
-                                        if (mCartItemListener != null) {
-                                            mTotalPrice = mTotalPrice + price;
-                                            final double itemTotal = countNum * price;
-                                            mCartItemListener.onItemClick(itemTotal);
-                                        }
+
                                     }
                                 })
                                 .build()

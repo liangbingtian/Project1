@@ -28,7 +28,7 @@ public class SearchResultDataConverter extends DataConverter {
             final String title = data.getString("title");
             final String desc = data.getString("desc");
             final double price = data.getDouble("price");
-            final int id = data.getInteger("id");
+            final int id = data.getInteger("goodsId");
 
             final MultipleItemEntity multipleItemEntity = MultipleItemEntity
                     .builder()

@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -77,10 +78,26 @@ public class GoodsDetailDelegate extends LatteDelegate
     @BindView(R2.id.icon_shop_cart)
     IconTextView mIconShopCart = null;
 
+    private boolean isClicked = false;
+
+    @OnClick(R2.id.icon_favor)
+    void clickFavor(){
+        if (!isClicked){
+            mIconFavor.setTextColor(Color.RED);
+            isClicked = true;
+        }else {
+            mIconFavor.setTextColor(Color.GRAY);
+            isClicked = false;
+        }
+    }
+
     private static final String ARG_GOODS_ID = "ARG_GOODS_ID";
     private int mGoodsId = -1;
 
     private String mGoodsThumbUrl = null;
+    private String mGoodsTitle = null;
+    private double mGoodsPrice = 0.00;
+    private String desc = null;
     private int mShopCount = 0;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
@@ -109,6 +126,9 @@ public class GoodsDetailDelegate extends LatteDelegate
 
     private void setShopCartCount(JSONObject data){
         mGoodsThumbUrl = data.getString("thumb");
+        mGoodsTitle = data.getString("name");
+        desc = data.getString("description");
+        mGoodsPrice = data.getDouble("price");
         if (mShopCount == 0){
             mCircleTextView.setVisibility(View.GONE);
         }
@@ -215,17 +235,23 @@ public class GoodsDetailDelegate extends LatteDelegate
         YoYo.with(new ScaleUpAnimator())
                 .duration(500)
                 .playOn(mIconShopCart);
+        mShopCount++;
+        mCircleTextView.setVisibility(View.VISIBLE);
+        mCircleTextView.setText(String.valueOf(mShopCount));
         RestClient.builder()
-                .url("add_shop_cart.json")
+                .url("http://172.20.10.8:8088/userCart/insert.do")
+                .params("goodId",mGoodsId)
+                .params("title",mGoodsTitle)
+                .params("desc",desc)
+                .params("thumb",mGoodsThumbUrl)
+                .params("count",mShopCount)
+                .params("price",mGoodsPrice)
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        mShopCount++;
-                        mCircleTextView.setVisibility(View.VISIBLE);
-                        mCircleTextView.setText(String.valueOf(mShopCount));
+                        Log.e("user", response);
                     }
                 })
-//                .params("","")
                 .build()
                 .post();
     }

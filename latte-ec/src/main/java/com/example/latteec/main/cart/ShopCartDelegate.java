@@ -71,12 +71,15 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
 
     @OnClick(R2.id.tv_top_shop_cart_remove_selected)
     void onClickRemoveSelectedItem() {
+        double deleteTotal = 0.00;
         final List<MultipleItemEntity> data = mAdapter.getData();
         //要删除的数据
         List<MultipleItemEntity> deleteEntities = new ArrayList<>();
         for (MultipleItemEntity entity : data) {
             final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
             if (isSelected) {
+                final double totalPrice = (double)entity.getField(ShopCartItemFields.PRICE) * (int)entity.getField(ShopCartItemFields.COUNT);
+                deleteTotal = deleteTotal + totalPrice;
                 deleteEntities.add(entity);
             }
         }
@@ -95,12 +98,14 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
                 mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
             }
         }
+        mTvTotalPrice.setText(String.valueOf(deleteTotal));
     }
 
     @OnClick(R2.id.tv_top_shop_cart_clear)
     void onClickClear() {
         mAdapter.getData().clear();
         mAdapter.notifyDataSetChanged();
+        mTvTotalPrice.setText("0.00");
         checkItemCount();
     }
 
@@ -151,7 +156,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         RestClient.builder()
-                .url("shop_cart_data.json")
+                .url("http://172.20.10.8:8088/userCart/list.do")
                 .loader(getContext())
                 .success(this)
                 .build()

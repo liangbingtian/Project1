@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="{fa-heart-o}"
+            android:text="{fa-heart}"
             android:textSize="20sp" />
 
         <android.support.v7.widget.AppCompatTextView

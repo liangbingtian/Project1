@@ -28,7 +28,7 @@ public class ShopCartDataConverter extends DataConverter {
             final String thumb = data.getString("thumb");
             final String desc = data.getString("desc");
             final String title = data.getString("title");
-            final int id = data.getInteger("id");
+            final int id = data.getInteger("goodid");
             final int count = data.getInteger("count");
             final double price = data.getDouble("price");
 

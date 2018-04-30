@@ -20,6 +20,7 @@ import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.util.storage.LattePreference;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.detail.GoodsDetailDelegate;
 import com.example.latteec.main.SearchResult.SearchResultDelegate;
 
 import java.util.ArrayList;
@@ -41,21 +42,11 @@ public class SearchDelegate extends LatteDelegate {
 
     @OnClick(R2.id.tv_top_search)
     void onClickSearch() {
-        RestClient.builder()
-                .url("index_data.json?key")
-                .loader(getContext())
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        final String searchItemText = mSearchEdit.getText().toString();
-                        saveItem(searchItemText);
-                        mSearchEdit.setText("");
-                        getSupportDelegate().startWithPop(new SearchResultDelegate());
-                    }
-                })
-                .build()
-                .get();
-
+        final String searchItemText = mSearchEdit.getText().toString();
+        saveItem(searchItemText);
+        mSearchEdit.setText("");
+        final SearchResultDelegate delegate = SearchResultDelegate.create(searchItemText);
+        getSupportDelegate().startWithPop(delegate);
     }
 
     @OnClick(R2.id.icon_top_search_back)

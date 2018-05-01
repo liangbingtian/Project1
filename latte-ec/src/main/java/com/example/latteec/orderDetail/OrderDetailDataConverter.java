@@ -25,7 +25,7 @@ public class OrderDetailDataConverter extends DataConverter {
         for (int i = 0; i < size; i++) {
             final JSONObject data = dataArray.getJSONObject(i);
             final String thumb = data.getString("thumb");
-            final String desc = data.getString("desc");
+            final String desc = data.getString("descr");
             final String title = data.getString("title");
             final String orderId = data.getString("orderid");
             final int goodId = data.getInteger("goodid");

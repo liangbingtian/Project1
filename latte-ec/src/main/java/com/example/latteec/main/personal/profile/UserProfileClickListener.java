@@ -1,14 +1,23 @@
 package com.example.latteec.main.personal.profile;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.example.latte.delegates.LatteDelegate;
+import com.example.latte.net.RestClient;
+import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.date.DateDialogUtil;
+import com.example.latte.util.callback.CallbackManager;
+import com.example.latte.util.callback.CallbackType;
+import com.example.latte.util.callback.IGlobalCallback;
 import com.example.latteec.R;
 import com.example.latteec.main.personal.list.ListBean;
 
@@ -34,10 +43,35 @@ public class UserProfileClickListener extends SimpleClickListener {
         switch (id) {
             case 1:
                 //开始照相机，或选择图片
+                CallbackManager.getInstance()
+                        .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
+                            @Override
+                            public void executeCallback(Uri args) {
+                                Log.e("ON_CROP", String.valueOf(args));
+                                final ImageView avatar = view.findViewById(R.id.img_arrow_avatar);
+                                Glide.with(DELEGATE)
+                                        .load(args)
+                                        .into(avatar);
+
+//                                RestClient.builder()
+//                                        .url("")
+//                                        .loader(DELEGATE.getContext())
+//                                        .file()
+//                                        .success(new ISuccess() {
+//                                            @Override
+//                                            public void onSuccess(String response) {
+//
+//                                            }
+//                                        })
+//                                        .build()
+//                                        .upload();
+                            }
+                        });
+                DELEGATE.startCameraWithCheck();
                 break;
             case 2:
                 final LatteDelegate nameDelegate = bean.getDelegate();
-                DELEGATE.getSupportDelegate().start(nameDelegate);
+                DELEGATE.getSupportDelegate().startWithPop(nameDelegate);
                 break;
             case 3:
                 getGenderDialog(new DialogInterface.OnClickListener() {

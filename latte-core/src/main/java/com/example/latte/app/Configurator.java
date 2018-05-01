@@ -3,6 +3,7 @@ package com.example.latte.app;
 import android.app.Activity;
 import android.os.Handler;
 
+import com.blankj.utilcode.util.Utils;
 import com.example.latte.delegates.web.event.Event;
 import com.example.latte.delegates.web.event.EventManager;
 import com.joanzapata.iconify.IconFontDescriptor;
@@ -56,6 +57,8 @@ public class Configurator {
     public final void configure() {
         initIcons();
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), true);
+        Utils.init(Latte.getApplicationContext());
+
     }
 
     public final Configurator withApiHost(String host) {

@@ -81,7 +81,8 @@ dependencies {
     //二维码扫描
     compile 'me.dm7.barcodescanner:zbar:1.9.3'
 
-    compile 'com.blankj:utilcode:1.11.1'
+    //工具包
+    compile 'com.blankj:utilcode:1.7.1'
 
     //View动画依赖
     compile 'com.nineoldandroids:library:2.4.0'
@@ -90,4 +91,10 @@ dependencies {
 
     //CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //动态权限处理
+    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+    //图片剪裁
+    compile 'com.github.yalantis:ucrop:2.2.1-native'
 }

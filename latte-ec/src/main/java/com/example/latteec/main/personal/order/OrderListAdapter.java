@@ -42,7 +42,7 @@ public class OrderListAdapter extends MultipleRecyclerAdapter{
                 final AppCompatTextView  price = holder.getView(R.id.tv_order_list_price);
                 final AppCompatTextView  time = holder.getView(R.id.tv_order_list_time);
 
-                final String titleVal = entity.getField(MultipleFields.TITLE);
+                final String titleVal = entity.getField(OrderItemFields.ORDERNO);
                 final String timeVal = entity.getField(OrderItemFields.TIME);
                 final Double priceVal = entity.getField(OrderItemFields.PRICE);
                 final String imageUrl = entity.getField(MultipleFields.IMAGE_URL);
@@ -53,7 +53,7 @@ public class OrderListAdapter extends MultipleRecyclerAdapter{
                         .into(imageView);
 
                 title.setText(titleVal);
-                price.setText("价格:"+String.valueOf(priceVal));
+                price.setText("总价:"+String.valueOf(priceVal));
                 time.setText("时间:"+timeVal);
 
                 break;

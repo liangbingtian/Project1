@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.latte.delegates.LatteDelegate;
@@ -23,7 +24,7 @@ import butterknife.BindView;
  * Created by liangbingtian on 2018/4/22.
  */
 
-public class OrderListDelegate extends LatteDelegate{
+public class OrderListDelegate extends LatteDelegate implements ISuccess{
 
     private String mType = null;
 
@@ -52,22 +53,24 @@ public class OrderListDelegate extends LatteDelegate{
         super.onLazyInitView(savedInstanceState);
         RestClient.builder()
                 .loader(getContext())
-                .url("order_list.json")
+                .url("http://172.20.10.8:8088/userOrder/listOrder.do")
                 .params("type",mType)
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-
-                        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                        mRecyclerView.setLayoutManager(manager);
-                        final List<MultipleItemEntity> data =
-                                new OrderListDataConverter().setJsonData(response).convert();
-                        final OrderListAdapter adapter = new OrderListAdapter(data);
-                        mRecyclerView.setAdapter(adapter);
-
-                    }
-                })
+                .success(this)
                 .build()
-                .get();
+                .post();
+    }
+
+    @Override
+    public void onSuccess(String response) {
+
+        Log.e("USER", response);
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(manager);
+        final List<MultipleItemEntity> data =
+                new OrderListDataConverter().setJsonData(response).convert();
+        final OrderListAdapter adapter = new OrderListAdapter(data);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(OrderItemClickListener.create(this));
+
     }
 }

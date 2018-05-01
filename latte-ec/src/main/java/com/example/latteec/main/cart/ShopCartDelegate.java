@@ -9,15 +9,19 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ViewStubCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.pay.FastPay;
+import com.example.latteec.pay.IAlPayResultListener;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
@@ -32,7 +36,7 @@ import butterknife.OnClick;
  */
 
 public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
-,ICartItemListener{
+,ICartItemListener,IAlPayResultListener{
 
     private ShopCartAdapter mAdapter = null;
     //购物车数量标记
@@ -112,16 +116,36 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     @OnClick(R2.id.tv_shop_cart_pay)
     void onClickPay(){
 
+        createOrder();
+
     }
 
     //创建订单
     private void createOrder(){
-        final String orderUrl = "";
-        final WeakHashMap<String,Object> orderParams = new WeakHashMap<>();
-        orderParams.put("userid",213);
-        orderParams.put("comment","测试支付");
-        orderParams.put("type",1);
-        orderParams.put("ordertype",0);
+//        final WeakHashMap<String,Object> orderParams = new WeakHashMap<>();
+//        orderParams.put("userid",213);
+//        orderParams.put("amount",0.01);
+//        orderParams.put("comment","测试支付");
+//        orderParams.put("type",1);
+//        orderParams.put("ordertype",0);
+
+        RestClient.builder()
+                .url("http://172.20.10.8:8088/userOrder/createOrder.do")
+                .loader(getContext())
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                           //进行具体的支付过程,生成订单
+//                        Log.e(TAG, "onSuccess: ", );
+                        final String orderId = JSON.parseObject(response).getString("message");
+                        FastPay.create(ShopCartDelegate.this)
+                                .setPayResultListener(ShopCartDelegate.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
+                    }
+                })
+                .build()
+                .post();
     }
 
     private void checkItemCount() {
@@ -183,5 +207,30 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFail() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 }

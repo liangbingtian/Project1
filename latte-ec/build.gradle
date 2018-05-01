@@ -58,7 +58,8 @@ dependencies {
     //二维码扫描
     compile 'me.dm7.barcodescanner:zbar:1.9.3'
 
-    compile 'com.blankj:utilcode:1.11.1'
+    //工具包
+    compile 'com.blankj:utilcode:1.7.1'
 
     //View动画依赖
     compile 'com.nineoldandroids:library:2.4.0'
@@ -67,4 +68,5 @@ dependencies {
 
     //CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 }

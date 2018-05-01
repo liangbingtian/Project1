@@ -7,6 +7,7 @@ package com.example.latteec.main.personal.order;
 public enum  OrderItemFields {
 
     PRICE,
-    TIME
+    TIME,
+    ORDERNO
 
 }

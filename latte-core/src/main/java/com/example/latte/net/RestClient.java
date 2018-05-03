@@ -112,7 +112,7 @@ public class RestClient {
                 final RequestBody requestBody =
                         RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
                 final MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
+                        MultipartBody.Part.createFormData("upload_file", FILE.getName(), requestBody);
                 call = service.upload(URL, body);
                 break;
             default:
@@ -172,6 +172,10 @@ public class RestClient {
     public final void download() {
 
         new DownloadHandler(URL, IREQUEST, DOWNLOAD_DIR, EXTENSION, NAME, SUCCESS, FAILURE, ERROR).handleDownload();
+    }
+
+    public final void upload() {
+        request(HttpMethod.UPLOAD);
     }
 
 

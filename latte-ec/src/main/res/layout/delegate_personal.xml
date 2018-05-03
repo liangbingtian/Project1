@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:background="@android:color/holo_orange_dark">
+            android:background="@android:color/holo_blue_dark">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_user_avatar"
@@ -21,10 +21,11 @@
                 android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:src="@mipmap/icon_02"
+                android:src="@mipmap/liangliang"
                  />
 
             <TextView
+                android:id="@+id/text_user_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

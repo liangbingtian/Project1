@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
@@ -32,6 +34,8 @@ public class UserProfileClickListener extends SimpleClickListener {
 
     private String[] mGenders = new String[]{"男", "女", "保密"};
 
+    private String mUrl = null;
+
     public UserProfileClickListener(LatteDelegate DELEGATE) {
         this.DELEGATE = DELEGATE;
     }
@@ -46,25 +50,41 @@ public class UserProfileClickListener extends SimpleClickListener {
                 CallbackManager.getInstance()
                         .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
                             @Override
-                            public void executeCallback(Uri args) {
+                            public void executeCallback(final Uri args) {
                                 Log.e("ON_CROP", String.valueOf(args));
                                 final ImageView avatar = view.findViewById(R.id.img_arrow_avatar);
                                 Glide.with(DELEGATE)
                                         .load(args)
                                         .into(avatar);
 
-//                                RestClient.builder()
-//                                        .url("")
-//                                        .loader(DELEGATE.getContext())
-//                                        .file()
-//                                        .success(new ISuccess() {
-//                                            @Override
-//                                            public void onSuccess(String response) {
-//
-//                                            }
-//                                        })
-//                                        .build()
-//                                        .upload();
+                                RestClient.builder()
+                                        .url("http://172.20.10.8:8088/UserInformationController/upload.do")
+                                        .loader(DELEGATE.getContext())
+                                        .file(args.getPath())
+                                        .success(new ISuccess() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                Log.e("ON_CROP_UPLOAD", response);
+                                                final String url = JSON.parseObject(response).getJSONObject("data")
+                                                        .getString("url");
+                                                mUrl = url;
+
+                                                RestClient.builder()
+                                                        .url("http://172.20.10.8:8088/UserInformationController/avatar.do")
+                                                        .loader(DELEGATE.getContext())
+                                                        .params("url", url)
+                                                        .success(new ISuccess() {
+                                                            @Override
+                                                            public void onSuccess(String response) {
+                                                                Log.e("ON_CROP_AVATAR", response);
+                                                            }
+                                                        })
+                                                        .build()
+                                                        .post();
+                                            }
+                                        })
+                                        .build()
+                                        .upload();
                             }
                         });
                 DELEGATE.startCameraWithCheck();
@@ -79,6 +99,19 @@ public class UserProfileClickListener extends SimpleClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         final TextView textView = view.findViewById(R.id.tv_arrow_value);
                         textView.setText(mGenders[which]);
+                        RestClient.builder()
+                                .url("http://172.20.10.8:8088/UserInformationController/gender.do")
+                                .loader(DELEGATE.getContext())
+                                .params("gender", mGenders[which])
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        Log.e("ON_CROP_GENDER", response);
+                                    }
+                                })
+                                .build()
+                                .post();
+
                         dialog.cancel();
                     }
                 });
@@ -90,6 +123,18 @@ public class UserProfileClickListener extends SimpleClickListener {
                     public void onDateChange(String data) {
                         final TextView textView = view.findViewById(R.id.tv_arrow_value);
                         textView.setText(data);
+                        RestClient.builder()
+                                .url("http://172.20.10.8:8088/UserInformationController/birth.do")
+                                .loader(DELEGATE.getContext())
+                                .params("birth", data)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        Log.e("ON_CROP_BIRTH", response);
+                                    }
+                                })
+                                .build()
+                                .post();
                     }
                 });
                 dateDialogUtil.showDialog(DELEGATE.getContext());

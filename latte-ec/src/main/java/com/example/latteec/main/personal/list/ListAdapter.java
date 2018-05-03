@@ -1,4 +1,6 @@
 package com.example.latteec.main.personal.list;
+import android.support.v4.widget.ImageViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +41,7 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
                               .load(item.getImageUrl())
                               .apply(OPTIONS)
                               .into((ImageView) helper.getView(R.id.img_arrow_avatar));
+
                       break;
                   default:
                       break;

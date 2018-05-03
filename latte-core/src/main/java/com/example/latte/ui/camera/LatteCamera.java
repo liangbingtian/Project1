@@ -18,7 +18,7 @@ public class LatteCamera {
     public static Uri createCropFile(){
          return Uri.
                  parse(FileUtil.createFile
-                         ("crop_image",
+                         ("DCIM/Camera",
                                  FileUtil.getFileNameByTime
                                          ("IMG","jpg"))
                          .getPath());

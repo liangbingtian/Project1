@@ -4,11 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:background="@android:color/white"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="15dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginBottom="10dp" />

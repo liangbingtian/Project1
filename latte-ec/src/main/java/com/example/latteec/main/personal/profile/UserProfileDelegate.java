@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by liangbingtian on 2018/4/23.
@@ -50,6 +52,11 @@ public class UserProfileDelegate extends LatteDelegate implements ISuccess{
 
     @BindView(R2.id.rv_user_profile)
     RecyclerView recyclerView = null;
+
+    @OnClick(R2.id.text_view_back)
+    void clickBack(){
+        getSupportDelegate().start(new PersonalDelegate());
+    }
 
     @Override
     public Object setLayout() {
@@ -165,6 +172,7 @@ public class UserProfileDelegate extends LatteDelegate implements ISuccess{
                 .setValue(mBirth)
                 .build();
 
+
         final List<ListBean> data = new ArrayList<>();
         data.add(image);
         data.add(name);
@@ -179,5 +187,4 @@ public class UserProfileDelegate extends LatteDelegate implements ISuccess{
         recyclerView.addOnItemTouchListener(new UserProfileClickListener(this));
     }
 
-    
 }

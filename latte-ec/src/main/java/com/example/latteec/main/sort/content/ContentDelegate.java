@@ -2,6 +2,7 @@ package com.example.latteec.main.sort.content;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -9,9 +10,15 @@ import android.view.View;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
+import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.EcBottomDelegate;
+import com.example.latteec.main.sort.SortDelegate;
+import com.example.latteec.orderDetail.OrderDetailAdapter;
+import com.example.latteec.orderDetail.OrderDetailDataConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,7 +31,8 @@ public class ContentDelegate extends LatteDelegate {
 
     private static final String ARG_CONTENT_ID = "CONTENT_ID";
     private int mContentId = -1;
-    private List<SectionBean> mData = null;
+    private static SectionAdapter mAdapter = null;
+
 
     @BindView(R2.id.rv_list_content)
     RecyclerView mRecyclerView;
@@ -53,14 +61,21 @@ public class ContentDelegate extends LatteDelegate {
 
     private void initData() {
         RestClient.builder()
-                .url("sort_content_data_1.json?contentId=" + mContentId)
+                .url("sort_content_data_"+mContentId+".json")
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                         mData = new SectionDataConverter().convert(response);
-                         final SectionAdapter sectionAdapter =
-                                 new SectionAdapter(R.layout.item_section_content,R.layout.item_section_header,mData);
-                         mRecyclerView.setAdapter(sectionAdapter);
+                        final ArrayList<MultipleItemEntity> data =
+                                new SectionDataConverter()
+                                        .setJsonData(response)
+                                        .convert();
+
+                        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                        mRecyclerView.setLayoutManager(manager);
+                        mAdapter = new SectionAdapter(data);
+                        mRecyclerView.setAdapter(mAdapter);
+                        final SortDelegate sortDelegate = getParentDelegate();
+                        mRecyclerView.addOnItemTouchListener(SectionIndexClickListener.create(sortDelegate.getParentDelegate()));
                     }
                 })
                 .build()

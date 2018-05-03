@@ -43,6 +43,7 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
                               .into((ImageView) helper.getView(R.id.img_arrow_avatar));
 
                       break;
+
                   default:
                       break;
               }

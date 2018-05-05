@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "efcfccbc7f4e7743f3a4bd85",
+                JPUSH_CHANNEL: "developer-default",
+                ]
     }
     buildTypes {
         release {
@@ -48,4 +54,11 @@ dependencies {
             exclude group: 'com.android.support'
         })
     }
+    compile 'cn.jiguang.sdk:jpush:3.0.1'
+    compile 'cn.jiguang.sdk:jcore:1.1.0'
+
+    //JSON依赖Android版
+    implementation 'com.alibaba:fastjson:1.1.57.android'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
 }

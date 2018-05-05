@@ -1,4 +1,4 @@
-package com.example.latteec.main.personal;
+package com.example.latteec.main.personal.settings;
 
 import android.view.View;
 
@@ -8,15 +8,15 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latteec.main.personal.list.ListBean;
 
 /**
- * Created by liangbingtian on 2018/4/24.
+ * Created by liangbingtian on 2018/5/4.
  */
 
-public class PersonalOnClickListener extends SimpleClickListener{
+public class SettingsClickListener extends SimpleClickListener{
 
     private final LatteDelegate DELEGATE;
 
-    public PersonalOnClickListener(LatteDelegate delegate) {
-        DELEGATE = delegate;
+    public SettingsClickListener(LatteDelegate delegate) {
+        this.DELEGATE = delegate;
     }
 
     @Override
@@ -25,17 +25,14 @@ public class PersonalOnClickListener extends SimpleClickListener{
         int id = bean.getId();
         switch (id){
             case 1:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
+                //这是消息推送的开关
                 break;
             case 2:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
-                break;
-            case 3:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
+                DELEGATE.getSupportDelegate().start(bean.getDelegate());
                 break;
             default:
                 break;
-        }
+    }
     }
 
     @Override

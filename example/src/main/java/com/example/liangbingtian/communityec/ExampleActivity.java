@@ -19,6 +19,7 @@ import com.example.latteec.sign.ISignListener;
 import com.example.latteec.sign.SignInDelegate;
 import com.example.latteec.sign.SignUpDelegate;
 
+import cn.jpush.android.api.JPushInterface;
 import qiu.niorgai.StatusBarCompat;
 
 /**
@@ -38,6 +39,18 @@ public class ExampleActivity extends ProxyActivity
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this,true);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 
     @Override

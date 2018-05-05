@@ -25,6 +25,8 @@ import com.example.latteec.main.personal.list.ListBean;
 import com.example.latteec.main.personal.list.ListItemType;
 import com.example.latteec.main.personal.order.OrderListDelegate;
 import com.example.latteec.main.personal.profile.UserProfileDelegate;
+import com.example.latteec.main.personal.settings.SettingsDelegate;
+import com.example.latteec.main.personal.uploadProduct.UploadProductDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,11 +121,20 @@ public class PersonalDelegate extends BottomItemDelegate {
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
                 .setText("系统设置")
+                .setLatteDelegate(new SettingsDelegate())
+                .build();
+
+        final ListBean uploadProduct = new ListBean.Builder()
+                .setItemType(ListItemType.ITEM_NORMAL)
+                .setId(3)
+                .setText("发布商品")
+                .setLatteDelegate(new UploadProductDelegate())
                 .build();
 
         final List<ListBean> data = new ArrayList<>();
         data.add(address);
         data.add(system);
+        data.add(uploadProduct);
 
         //设置RecycleView
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());

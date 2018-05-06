@@ -55,7 +55,7 @@ public class UserProfileDelegate extends LatteDelegate implements ISuccess{
 
     @OnClick(R2.id.text_view_back)
     void clickBack(){
-        getSupportDelegate().start(new PersonalDelegate());
+        getSupportDelegate().start(new EcBottomDelegate());
     }
 
     @Override

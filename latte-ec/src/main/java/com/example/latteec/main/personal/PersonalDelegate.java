@@ -77,7 +77,7 @@ public class PersonalDelegate extends BottomItemDelegate {
     private void startOrderListByType() {
         final OrderListDelegate delegate = new OrderListDelegate();
         delegate.setArguments(mArgs);
-        getParentDelegate().getSupportDelegate().startWithPop(delegate);
+        getParentDelegate().getSupportDelegate().start(delegate);
     }
 
     @Override

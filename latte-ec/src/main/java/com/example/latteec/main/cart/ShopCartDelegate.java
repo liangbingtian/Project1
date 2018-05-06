@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
+import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.R;
 import com.example.latteec.R2;
@@ -36,9 +37,10 @@ import butterknife.OnClick;
  */
 
 public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
-,ICartItemListener,IAlPayResultListener{
+        , ICartItemListener, IAlPayResultListener {
 
     private ShopCartAdapter mAdapter = null;
+
     //购物车数量标记
     private int mCurrentCount = 0;
     private int mTotalCount = 0;
@@ -82,27 +84,32 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
         for (MultipleItemEntity entity : data) {
             final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
             if (isSelected) {
-                final double totalPrice = (double)entity.getField(ShopCartItemFields.PRICE) * (int)entity.getField(ShopCartItemFields.COUNT);
+                final double totalPrice = (double) entity.getField(ShopCartItemFields.PRICE) * (int) entity.getField(ShopCartItemFields.COUNT);
                 deleteTotal = deleteTotal + totalPrice;
                 deleteEntities.add(entity);
             }
         }
-        for (MultipleItemEntity entity : deleteEntities) {
-            int removePosition;
-            final int entityPosition = entity.getField(ShopCartItemFields.POSITION);
-            if (entityPosition > mCurrentCount - 1) {
-                removePosition = entityPosition - (mTotalCount - mCurrentCount);
-            } else {
-                removePosition = entityPosition;
-            }
-            if (removePosition <= mAdapter.getItemCount()) {
-                mAdapter.remove(removePosition);
-                mCurrentCount = mAdapter.getItemCount();
-                //更新数据
-                mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
+        for (int i = 0; i < deleteEntities.size(); i++) {
+            final int goodId = deleteEntities.get(i).getField(MultipleFields.ID);
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userCart/deleteByGoodId.do")
+                    .loader(getContext())
+                    .params("goodId", goodId)
+                    .build()
+                    .post();
+
+            int DataCount = data.size();
+            int currentPosition = deleteEntities.get(i).getField(ShopCartItemFields.POSITION);
+            if (currentPosition < data.size()) {
+                mAdapter.remove(currentPosition);
+                for (; currentPosition < DataCount - 1; currentPosition++){
+                    int rawItemPos = data.get(currentPosition).getField(ShopCartItemFields.POSITION);
+                    data.get(currentPosition).setField(ShopCartItemFields.POSITION,rawItemPos-1);
+                }
             }
         }
-        mTvTotalPrice.setText(String.valueOf(deleteTotal));
+        double price = Double.valueOf(mTvTotalPrice.getText().toString());
+        mTvTotalPrice.setText(String.valueOf(price-deleteTotal));
     }
 
     @OnClick(R2.id.tv_top_shop_cart_clear)
@@ -110,18 +117,24 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
         mAdapter.getData().clear();
         mAdapter.notifyDataSetChanged();
         mTvTotalPrice.setText("0.00");
+        RestClient.builder()
+                .url("http://172.20.10.8:8088/userCart/deleteAll.do")
+                .loader(getContext())
+                .build()
+                .post();
+
         checkItemCount();
     }
 
     @OnClick(R2.id.tv_shop_cart_pay)
-    void onClickPay(){
+    void onClickPay() {
 
         createOrder();
 
     }
 
     //创建订单
-    private void createOrder(){
+    private void createOrder() {
 //        final WeakHashMap<String,Object> orderParams = new WeakHashMap<>();
 //        orderParams.put("userid",213);
 //        orderParams.put("amount",0.01);
@@ -135,7 +148,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                           //进行具体的支付过程,生成订单
+                        //进行具体的支付过程,生成订单
 //                        Log.e(TAG, "onSuccess: ", );
                         final String orderId = JSON.parseObject(response).getString("message");
                         FastPay.create(ShopCartDelegate.this)

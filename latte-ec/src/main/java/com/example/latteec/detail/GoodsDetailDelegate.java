@@ -34,6 +34,7 @@ import com.example.latte.ui.banner.HolderCreator;
 import com.example.latte.ui.widget.CircleTextView;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.EcBottomDelegate;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import org.greenrobot.greendao.annotation.NotNull;
@@ -122,6 +123,11 @@ public class GoodsDetailDelegate extends LatteDelegate
                 .apply(OPTIONS)
                 .into(animImg);
         BezierAnimation.addCart(this,mRlAddShopCart,mIconShopCart,animImg,this);
+    }
+
+    @OnClick(R2.id.icon_shop_cart)
+    void onClickShopCart(){
+        getSupportDelegate().start(new EcBottomDelegate());
     }
 
     private void setShopCartCount(JSONObject data){

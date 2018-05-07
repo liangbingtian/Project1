@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -15,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="发布商品"
+            android:text="添加地址"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             tools:ignore="HardcodedText" />
@@ -34,20 +33,6 @@
             android:paddingRight="24dp"
             android:paddingTop="56dp">
 
-
-            <com.example.latte.ui.widget.AutoPhotoLayout
-                android:id="@+id/custom_auto_photo_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                app:icon_size="10sp"
-                app:item_margin="3"
-                app:line_count="5"
-                app:max_count="5"/>
-
-
-            <!--商品名称-->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,15 +40,17 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/user_upload_product_name"
+                    android:id="@+id/add_address_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="商品名称"
+                    android:hint="姓名"
                     android:textSize="20sp"
+                    android:inputType="textPersonName"
                     tools:ignore="HardcodedText" />
             </android.support.design.widget.TextInputLayout>
 
-            <!--商品详细-->
+
+            <!--手机号码-->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,15 +58,16 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/user_upload_name"
+                    android:id="@+id/add_address_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="发布者"
+                    android:hint="手机号码"
+                    android:inputType="phone"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
             </android.support.design.widget.TextInputLayout>
 
-            <!--商品详细-->
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,48 +75,28 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/user_upload_phone"
+                    android:id="@+id/add_address_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="联系电话"
+                    android:hint="收货地址"
                     android:textSize="20sp"
+                    android:inputType="textShortMessage"
                     tools:ignore="HardcodedText" />
             </android.support.design.widget.TextInputLayout>
-
-
-            <!--商品详细-->
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/user_upload_product_desc"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@android:color/holo_orange_light"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="top|left"
-                android:hint="商品详细"
-                android:padding="10dp" />
-
-
-
-
-
-
 
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/user_upload_btn"
-                android:layout_width="100dp"
+                android:id="@+id/add_address_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
                 android:layout_marginTop="24dp"
                 android:background="@android:color/holo_blue_bright"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="发布"
+                android:text="提交"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
-
 
         </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v4.widget.NestedScrollView>

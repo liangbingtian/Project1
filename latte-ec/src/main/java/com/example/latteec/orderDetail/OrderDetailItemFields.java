@@ -12,5 +12,6 @@ public enum  OrderDetailItemFields {
     DESC,
     THUMB,
     STATUS,
-    PRICE
+    PRICE,
+    COUNTS
 }

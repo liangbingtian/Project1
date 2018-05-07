@@ -40,6 +40,7 @@ public class OrderDetailAdapter extends MultipleRecyclerAdapter{
                 final String desc = entity.getField(OrderDetailItemFields.DESC);
                 final String thumb = entity.getField(OrderDetailItemFields.THUMB);
                 final int status = entity.getField(OrderDetailItemFields.STATUS);
+                final int counts = entity.getField(OrderDetailItemFields.COUNTS);
                 final double price = entity.getField(OrderDetailItemFields.PRICE);
 
                 final AppCompatImageView orderDetailImageView = holder.getView(R.id.image_item_order_detail);
@@ -49,7 +50,7 @@ public class OrderDetailAdapter extends MultipleRecyclerAdapter{
                 final AppCompatTextView orderDetailStatus = holder.getView(R.id.tv_item_order_detail_status);
 
                 orderDetailTitle.setText(title);
-                orderDetailDesc.setText(desc);
+                orderDetailDesc.setText("个数: "+String.valueOf(counts));
                 orderDetailPrice.setText(String.valueOf(price));
                 Glide.with(mContext)
                         .load(thumb)

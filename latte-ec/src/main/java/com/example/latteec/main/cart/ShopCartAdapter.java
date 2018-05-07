@@ -89,6 +89,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                 tvCount.setText(String.valueOf(count));
                 Glide.with(mContext)
                         .load(thumb)
+                        .apply(OPTIONS)
                         .into(imageThumb);
 
                 //在左侧勾勾渲染之前改变选与否的状态
@@ -138,7 +139,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                     .url("http://172.20.10.8:8088/userCart/change.do")
                                     .loader(mContext)
                                     .params("goodId",goodId)
-                                    .params("count", currentCount)
+                                    .params("count", countNum)
                                     .success(new ISuccess() {
                                         @Override
                                         public void onSuccess(String response) {
@@ -168,7 +169,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                 .url("http://172.20.10.8:8088/userCart/change.do")
                                 .loader(mContext)
                                 .params("goodId",goodId)
-                                .params("count", currentCount)
+                                .params("count", countNum)
                                 .success(new ISuccess() {
                                     @Override
                                     public void onSuccess(String response) {

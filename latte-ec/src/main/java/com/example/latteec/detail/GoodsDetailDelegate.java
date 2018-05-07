@@ -127,7 +127,9 @@ public class GoodsDetailDelegate extends LatteDelegate
 
     @OnClick(R2.id.icon_shop_cart)
     void onClickShopCart(){
-        getSupportDelegate().start(new EcBottomDelegate());
+
+        EcBottomDelegate delegate = EcBottomDelegate.create(2);
+        getSupportDelegate().start(delegate);
     }
 
     private void setShopCartCount(JSONObject data){

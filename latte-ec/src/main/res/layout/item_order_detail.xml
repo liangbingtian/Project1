@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:textSize="20sp"
-            android:text="商品描述"
+            android:text="商品个数"
             tools:ignore="HardcodedText" />
 
     </android.support.v7.widget.LinearLayoutCompat>

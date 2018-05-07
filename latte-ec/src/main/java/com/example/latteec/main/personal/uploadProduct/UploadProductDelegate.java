@@ -20,6 +20,7 @@ import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.EcBottomDelegate;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -64,6 +65,8 @@ public class UploadProductDelegate extends LatteDelegate {
                         public void onSuccess(String response) {
                             Toast.makeText(getContext(), "发布成功", Toast.LENGTH_SHORT).show();
                             Log.e("UPLOAD_RESULT", response);
+                            EcBottomDelegate delegate = EcBottomDelegate.create(3);
+                            getSupportDelegate().start(delegate);
                         }
                     })
                     .build()

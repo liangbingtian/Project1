@@ -30,6 +30,7 @@ public class OrderDetailDataConverter extends DataConverter {
             final String orderId = data.getString("orderid");
             final int goodId = data.getInteger("goodid");
             final int status = data.getInteger("status");
+            final int counts = data.getInteger("counts");
             final double price = data.getDouble("price");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
@@ -41,6 +42,7 @@ public class OrderDetailDataConverter extends DataConverter {
                     .setField(OrderDetailItemFields.GOODID, goodId)
                     .setField(OrderDetailItemFields.STATUS, status)
                     .setField(OrderDetailItemFields.PRICE, price)
+                    .setField(OrderDetailItemFields.COUNTS, counts)
                     .build();
 
             dataList.add(entity);

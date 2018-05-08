@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,12 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latteec.R;
+import com.example.latteec.R2;
+import com.example.latteec.main.cart.ShopCartAdapter;
+
+import butterknife.BindView;
+
+import static com.blankj.utilcode.util.Utils.getContext;
 
 /**
  * Created by liangbingtian on 2018/5/1.
@@ -22,6 +29,9 @@ import com.example.latteec.R;
 
 public class FastPay implements View.OnClickListener {
 
+    AppCompatTextView mTvTotalPrice = null;
+
+    private ShopCartAdapter adapter = null;
     //设置支付回调监听
     private IAlPayResultListener mIAlPayResultListener = null;
     private Activity mActivity = null;
@@ -29,14 +39,16 @@ public class FastPay implements View.OnClickListener {
     private AlertDialog mDialog = null;
     private String mOrderId = null;
 
-    private FastPay(LatteDelegate delegate) {
+    private FastPay(LatteDelegate delegate,ShopCartAdapter shopCartAdapter,AppCompatTextView mTvTotalPrice) {
         this.mActivity = delegate.getProxyActivity();
         this.mDialog = new AlertDialog.Builder(delegate.getContext()).create();
+        this.adapter = shopCartAdapter;
+        this.mTvTotalPrice = mTvTotalPrice;
     }
 
-    public static FastPay create(LatteDelegate delegate) {
+    public static FastPay create(LatteDelegate delegate, ShopCartAdapter adapter,AppCompatTextView mTvTotalPrice) {
 
-        return new FastPay(delegate);
+        return new FastPay(delegate,adapter,mTvTotalPrice);
     }
 
     public void beginPayDialog() {
@@ -93,6 +105,14 @@ public class FastPay implements View.OnClickListener {
 
         int id = v.getId();
         if (id == R.id.btn_dialog_pay_alpay) {
+            adapter.getData().clear();
+            mTvTotalPrice.setText("0.0");
+            adapter.notifyDataSetChanged();
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userCart/deleteAll.do")
+                    .loader(mActivity)
+                    .build()
+                    .post();
             mDialog.cancel();
         } else if (id == R.id.btn_dialog_pay_wechat) {
             mDialog.cancel();

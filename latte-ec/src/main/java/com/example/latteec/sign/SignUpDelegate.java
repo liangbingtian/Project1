@@ -12,6 +12,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
@@ -39,6 +41,10 @@ public class SignUpDelegate extends LatteDelegate {
     TextInputEditText mPassword = null;
     @BindView(R2.id.edit_sign_up_re_password)
     TextInputEditText mRePassword = null;
+    @BindView(R2.id.edit_sign_up_forget_password_question)
+    TextInputEditText mQuestion = null;
+    @BindView(R2.id.edit_sign_up_forget_password_answer)
+    TextInputEditText mAnswer = null;
 
     private ISignListener mISignListener = null;
 
@@ -54,17 +60,23 @@ public class SignUpDelegate extends LatteDelegate {
     void onClickSignUp() {
         if (checkForm()) {
             RestClient.builder()
-                    .url("http://172.20.10.8/RestServer/data/user_profile.json")
+                    .url("http://172.20.10.8:8088/userProfile/signUp.do")
 //                    .url("http://172.20.10.8:8088/userProfile/signUp.do")
                     .params("name", mName.getText().toString())
                     .params("email", mEmail.getText().toString())
                     .params("phone", mPhone.getText().toString())
                     .params("password", mPassword.getText().toString())
+                    .params("question", mQuestion.getText().toString())
+                    .params("answer", mAnswer.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
-                            Log.e("user", response);
-                            SignHandler.onSignUp(response, mISignListener);
+                            final int code = JSON.parseObject(response).getInteger("code");
+                            if (code == 0) {
+
+                                SignHandler.onSignUp(response, mISignListener);
+
+                            }
                         }
                     })
                     .build()
@@ -83,6 +95,8 @@ public class SignUpDelegate extends LatteDelegate {
         final String phone = mPhone.getText().toString();
         final String password = mPassword.getText().toString();
         final String rePassword = mRePassword.getText().toString();
+        final String question = mQuestion.getText().toString();
+        final String answer = mAnswer.getText().toString();
 
         boolean isPass = true;
 
@@ -119,6 +133,20 @@ public class SignUpDelegate extends LatteDelegate {
             isPass = false;
         } else {
             mRePassword.setError(null);
+        }
+
+        if (question.isEmpty()) {
+            mQuestion.setError("请输入姓名");
+            isPass = false;
+        } else {
+            mQuestion.setError(null);
+        }
+
+        if (answer.isEmpty()) {
+            mAnswer.setError("请输入姓名");
+            isPass = false;
+        } else {
+            mAnswer.setError(null);
         }
 
         return isPass;

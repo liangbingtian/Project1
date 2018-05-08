@@ -41,11 +41,11 @@ public class AddressDelegate extends LatteDelegate implements ISuccess{
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         RestClient.builder()
-                .url("address.json")
+                .url("http://172.20.10.8:8088/userAddress/select.do")
                 .loader(getContext())
                 .success(this)
                 .build()
-                .get();
+                .post();
     }
 
     @Override

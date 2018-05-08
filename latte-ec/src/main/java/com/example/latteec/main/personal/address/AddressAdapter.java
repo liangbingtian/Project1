@@ -3,6 +3,7 @@ package com.example.latteec.main.personal.address;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.latte.net.RestClient;
@@ -36,7 +37,7 @@ public class AddressAdapter extends MultipleRecyclerAdapter {
                 final String name = entity.getField(MultipleFields.NAME);
                 final String phone = entity.getField(AddressItemFields.PHONE);
                 final String address = entity.getField(AddressItemFields.ADDRESS);
-                final boolean isDefault = entity.getField(MultipleFields.TAG);
+                final int isDefault = entity.getField(MultipleFields.TAG);
                 final int id = entity.getField(MultipleFields.ID);
 
                 final AppCompatTextView nameText = holder.getView(R.id.tv_address_name);
@@ -51,24 +52,39 @@ public class AddressAdapter extends MultipleRecyclerAdapter {
                         final int currentPosition = holder.getAdapterPosition();
                         if (mPrePosition != currentPosition) {
                             //还原上一个
-                            getData().get(mPrePosition).setField(MultipleFields.TAG, false);
-                            final int addressId = getData().get(mPrePosition).getField(MultipleFields.ID);
-                            RestClient.builder()
-                                    .url("")
-                                    .params("id1",addressId)
-                                    .params("id2",id)
-                                    .success(new ISuccess() {
-                                        @Override
-                                        public void onSuccess(String response) {
+                            if (getData().size() <= mPrePosition){
+                                RestClient.builder()
+                                        .url("http://172.20.10.8:8088/userAddress/changeOne.do")
+                                        .params("id",id)
+                                        .success(new ISuccess() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                Log.e("changeAddressOne", response);
+                                            }
+                                        })
+                                        .build()
+                                        .post();
+                            }else {
 
-                                        }
-                                    })
-                                    .build()
-                                    .post();
+                                getData().get(mPrePosition).setField(MultipleFields.TAG, 0);
+                                final int addressId = getData().get(mPrePosition).getField(MultipleFields.ID);
+                                RestClient.builder()
+                                        .url("http://172.20.10.8:8088/userAddress/change.do")
+                                        .params("id1", addressId)
+                                        .params("id2", id)
+                                        .success(new ISuccess() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                Log.e("changeAddressType", response);
+                                            }
+                                        })
+                                        .build()
+                                        .post();
 
-                            notifyItemChanged(mPrePosition);
+                                notifyItemChanged(mPrePosition);
+                            }
                             //更新选中的item
-                            entity.setField(MultipleFields.TAG, true);
+                            entity.setField(MultipleFields.TAG, 1);
                             notifyItemChanged(currentPosition);
                             mPrePosition = currentPosition;
 
@@ -76,7 +92,7 @@ public class AddressAdapter extends MultipleRecyclerAdapter {
                         }
                     }
                 });
-                if (!isDefault) {
+                if (isDefault == 0) {
                     line.setVisibility(View.INVISIBLE);
                     nameText.setTextColor(ContextCompat.getColor(mContext, R.color.we_chat_black));
                     itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.item_background));
@@ -91,7 +107,7 @@ public class AddressAdapter extends MultipleRecyclerAdapter {
                     public void onClick(View v) {
 
                         RestClient.builder()
-                                .url("address.json")
+                                .url("http://172.20.10.8:8088/userAddress/delete.do")
                                 .params("id", id)
                                 .success(new ISuccess() {
                                     @Override

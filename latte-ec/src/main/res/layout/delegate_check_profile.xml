@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="登录"
+            android:text="验证"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             tools:ignore="HardcodedText" />
@@ -34,14 +34,7 @@
             android:paddingRight="24dp"
             android:paddingTop="56dp">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:src="@mipmap/icon_02" />
 
-            <!--邮箱-->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,11 +42,29 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edit_sign_in_email"
+                    android:id="@+id/edit_check_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="邮箱"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textShortMessage"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
+            </android.support.design.widget.TextInputLayout>
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_check_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="忘记密码问题"
+                    android:inputType="textShortMessage"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
             </android.support.design.widget.TextInputLayout>
@@ -66,17 +77,34 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edit_sign_in_password"
+                    android:id="@+id/edit_check_answer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="密码"
-                    android:inputType="textPassword"
+                    android:hint="忘记密码答案"
+                    android:inputType="textShortMessage"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--密码-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_password_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="新密码"
+                    android:inputType="textShortMessage"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_sign_in"
+                android:id="@+id/btn_check_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -84,39 +112,12 @@
                 android:background="@android:color/holo_blue_bright"
                 android:gravity="center"
                 android:padding="12dp"
-                android:text="登录"
+                android:text="验证"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_link_sign_up"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:text="还没有账户？现在注册吧"
-                android:textSize="16sp"
-                tools:ignore="HardcodedText" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_forget_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:text="忘记密码？"
-                android:textSize="16sp"
-                tools:ignore="HardcodedText" />
 
-            <com.joanzapata.iconify.widget.IconTextView
-                android:id="@+id/icon_sign_in_wechat"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="{fa-weixin}"
-                android:textColor="#04b00f"
-                android:textSize="40sp" />
 
         </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v4.widget.NestedScrollView>

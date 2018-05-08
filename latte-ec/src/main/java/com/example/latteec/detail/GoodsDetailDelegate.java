@@ -129,7 +129,7 @@ public class GoodsDetailDelegate extends LatteDelegate
     void onClickShopCart(){
 
         EcBottomDelegate delegate = EcBottomDelegate.create(2);
-        getSupportDelegate().start(delegate);
+        getSupportDelegate().startWithPop(delegate);
     }
 
     private void setShopCartCount(JSONObject data){
@@ -139,7 +139,10 @@ public class GoodsDetailDelegate extends LatteDelegate
         mGoodsPrice = data.getDouble("price");
         if (mShopCount == 0){
             mCircleTextView.setVisibility(View.GONE);
+        }else {
+            mCircleTextView.setText(String.valueOf(mShopCount));
         }
+
     }
 
     @Override
@@ -148,8 +151,20 @@ public class GoodsDetailDelegate extends LatteDelegate
         final Bundle args = getArguments();
         if (args != null) {
             mGoodsId = args.getInt(ARG_GOODS_ID);
-            Toast.makeText(getContext(), "商品ID" + mGoodsId, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "商品ID" + mGoodsId, Toast.LENGTH_SHORT).show();
         }
+        RestClient.builder()
+                .url("http://172.20.10.8:8088/userCart/selectCount.do")
+                .params("goodId",mGoodsId)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final int count = JSON.parseObject(response).getInteger("data");
+                        mShopCount = count;
+                    }
+                })
+                .build()
+                .post();
     }
 
     @Override

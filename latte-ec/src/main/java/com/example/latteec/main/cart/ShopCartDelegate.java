@@ -102,14 +102,14 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
             int currentPosition = deleteEntities.get(i).getField(ShopCartItemFields.POSITION);
             if (currentPosition < data.size()) {
                 mAdapter.remove(currentPosition);
-                for (; currentPosition < DataCount - 1; currentPosition++){
+                for (; currentPosition < DataCount - 1; currentPosition++) {
                     int rawItemPos = data.get(currentPosition).getField(ShopCartItemFields.POSITION);
-                    data.get(currentPosition).setField(ShopCartItemFields.POSITION,rawItemPos-1);
+                    data.get(currentPosition).setField(ShopCartItemFields.POSITION, rawItemPos - 1);
                 }
             }
         }
         double price = Double.valueOf(mTvTotalPrice.getText().toString());
-        mTvTotalPrice.setText(String.valueOf(price-deleteTotal));
+        mTvTotalPrice.setText(String.valueOf(price - deleteTotal));
     }
 
     @OnClick(R2.id.tv_top_shop_cart_clear)
@@ -151,7 +151,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
                         //进行具体的支付过程,生成订单
 //                        Log.e(TAG, "onSuccess: ", );
                         final String orderId = JSON.parseObject(response).getString("message");
-                        FastPay.create(ShopCartDelegate.this)
+                        FastPay.create(ShopCartDelegate.this, mAdapter, mTvTotalPrice)
                                 .setPayResultListener(ShopCartDelegate.this)
                                 .setOrderId(orderId)
                                 .beginPayDialog();

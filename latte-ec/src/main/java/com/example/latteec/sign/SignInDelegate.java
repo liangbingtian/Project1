@@ -6,7 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
@@ -41,23 +44,35 @@ public class SignInDelegate extends LatteDelegate {
         }
     }
 
+    @OnClick(R2.id.tv_forget_password)
+    void clickForget(){
+        getSupportDelegate().startWithPop(new checkProfileDelegate());
+    }
+
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
-         if (checkForm()){
-             RestClient.builder()
-                     .params("email", mEmail.getText().toString())
-                     .params("password", mPassword.getText().toString())
-                     .success(new ISuccess() {
-                         @Override
-                         public void onSuccess(String response) {
-                             LatteLogger.json("USER_PROFILE", response);
-                             SignHandler.onSignIn(response, mISignListener);
-                         }
-                     })
-                     .build()
-                     .post();
-         }
-         getSupportDelegate().start(new EcBottomDelegate());
+        if (checkForm()) {
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userProfile/signIn.do")
+                    .params("email", mEmail.getText().toString())
+                    .params("password", mPassword.getText().toString())
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            LatteLogger.json("USER_PROFILE", response);
+                            final JSONObject profileJson = JSON.parseObject(response).getJSONObject("data");
+                            if (profileJson != null) {
+
+                                SignHandler.onSignIn(response, mISignListener);
+                                getSupportDelegate().start(new EcBottomDelegate());
+                            } else {
+                                Toast.makeText(getContext(), "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .build()
+                    .post();
+        }
     }
 
     @OnClick(R2.id.icon_sign_in_wechat)
@@ -71,7 +86,7 @@ public class SignInDelegate extends LatteDelegate {
     }
 
     @OnClick(R2.id.tv_link_sign_up)
-    void onClickLink(){
+    void onClickLink() {
         getSupportDelegate().start(new SignUpDelegate());
     }
 

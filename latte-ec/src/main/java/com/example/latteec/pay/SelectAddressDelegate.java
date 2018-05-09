@@ -1,4 +1,4 @@
-package com.example.latteec.main.personal.uploadProduct.myUploadProduct;
+package com.example.latteec.pay;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,45 +13,51 @@ import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.EcBottomDelegate;
+import com.example.latteec.main.personal.address.AddressAdapter;
+import com.example.latteec.main.personal.address.AddressDataConverter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
- * Created by liangbingtian on 2018/5/5.
+ * Created by liangbingtian on 2018/5/9.
  */
 
-public class MyUploadProductDelegate extends LatteDelegate implements ISuccess{
+public class SelectAddressDelegate extends LatteDelegate implements ISuccess{
 
-    @BindView(R2.id.upload_product_recycler)
+    @BindView(R2.id.select_address)
     RecyclerView mRecycler = null;
-
-    private static MyUploadProductAdapter mAdapter = null;
+    @OnClick(R2.id.btn_select_end)
+    void onClickEnd(){
+        EcBottomDelegate ecBottomDelegate = EcBottomDelegate.create(2);
+        getSupportDelegate().start(ecBottomDelegate);
+    }
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_search_upload_product;
+        return R.layout.delete_select_address;
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         RestClient.builder()
-                .url("http://172.20.10.8:8088/userUploadProduct/select.do")
+                .url("http://172.20.10.8:8088/userAddress/select.do")
                 .loader(getContext())
                 .success(this)
                 .build()
-                .get();
+                .post();
     }
-
 
     @Override
     public void onSuccess(String response) {
-        final ArrayList<MultipleItemEntity> data =
-                new MyUploadProductDataConverter().setJsonData(response).convert();
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecycler.setLayoutManager(manager);
-        mAdapter = new MyUploadProductAdapter(data);
-        mRecycler.setAdapter(mAdapter);
+        final List<MultipleItemEntity> data =
+                new AddressDataConverter().setJsonData(response).convert();
+        final AddressAdapter addressAdapter = new AddressAdapter(data);
+        mRecycler.setAdapter(addressAdapter);
     }
 }

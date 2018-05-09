@@ -36,6 +36,8 @@ public class PersonalOnClickListener extends SimpleClickListener{
             case 4:
                 DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
                 break;
+            case 5:
+                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
             default:
                 break;
         }

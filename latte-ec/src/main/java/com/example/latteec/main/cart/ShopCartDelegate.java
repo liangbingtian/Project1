@@ -187,6 +187,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mIconSelectAll.setTag(0);
+
     }
 
     @Override

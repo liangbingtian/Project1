@@ -19,6 +19,7 @@ import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.main.favor.FavorDelegate;
 import com.example.latteec.main.personal.address.AddressDelegate;
 import com.example.latteec.main.personal.list.ListAdapter;
 import com.example.latteec.main.personal.list.ListBean;
@@ -139,11 +140,19 @@ public class PersonalDelegate extends BottomItemDelegate {
                 .setLatteDelegate(new MyUploadProductDelegate())
                 .build();
 
+        final ListBean myFavor = new ListBean.Builder()
+                .setItemType(ListItemType.ITEM_NORMAL)
+                .setId(5)
+                .setText("我的收藏")
+                .setLatteDelegate(new FavorDelegate())
+                .build();
+
         final List<ListBean> data = new ArrayList<>();
         data.add(address);
         data.add(system);
         data.add(uploadProduct);
         data.add(myUploadProduct);
+        data.add(myFavor);
 
         //设置RecycleView
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());

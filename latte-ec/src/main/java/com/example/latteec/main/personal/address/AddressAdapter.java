@@ -24,7 +24,7 @@ public class AddressAdapter extends MultipleRecyclerAdapter {
 
     private int mPrePosition = 0;
 
-    protected AddressAdapter(List<MultipleItemEntity> data) {
+    public AddressAdapter(List<MultipleItemEntity> data) {
         super(data);
         addItemType(AddressItemType.ITEM_ADDRESS, R.layout.item_address);
     }

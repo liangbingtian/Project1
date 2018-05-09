@@ -18,6 +18,7 @@ import com.example.latte.net.callback.ISuccess;
 import com.example.latteec.R;
 import com.example.latteec.R2;
 import com.example.latteec.main.cart.ShopCartAdapter;
+import com.example.latteec.main.personal.address.AddressDelegate;
 
 import butterknife.BindView;
 
@@ -38,12 +39,14 @@ public class FastPay implements View.OnClickListener {
 
     private AlertDialog mDialog = null;
     private String mOrderId = null;
+    private LatteDelegate delegate = null;
 
     private FastPay(LatteDelegate delegate,ShopCartAdapter shopCartAdapter,AppCompatTextView mTvTotalPrice) {
         this.mActivity = delegate.getProxyActivity();
         this.mDialog = new AlertDialog.Builder(delegate.getContext()).create();
         this.adapter = shopCartAdapter;
         this.mTvTotalPrice = mTvTotalPrice;
+        this.delegate = delegate;
     }
 
     public static FastPay create(LatteDelegate delegate, ShopCartAdapter adapter,AppCompatTextView mTvTotalPrice) {
@@ -114,6 +117,8 @@ public class FastPay implements View.OnClickListener {
                     .build()
                     .post();
             mDialog.cancel();
+            delegate.getParentDelegate().getSupportDelegate().start(new SelectAddressDelegate());
+
         } else if (id == R.id.btn_dialog_pay_wechat) {
             mDialog.cancel();
         } else if (id == R.id.btn_dialog_pay_cancel) {

@@ -86,9 +86,24 @@ public class GoodsDetailDelegate extends LatteDelegate
         if (!isClicked){
             mIconFavor.setTextColor(Color.RED);
             isClicked = true;
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userFavor/add.do")
+                    .loader(getContext())
+                    .params("thumb",mGoodsThumbUrl)
+                    .params("title",mGoodsTitle)
+                    .params("price",mGoodsPrice)
+                    .params("goodId",mGoodsId)
+                    .build()
+                    .post();
         }else {
             mIconFavor.setTextColor(Color.GRAY);
             isClicked = false;
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userFavor/delete.do")
+                    .loader(getContext())
+                    .params("goodId",mGoodsId)
+                    .build()
+                    .post();
         }
     }
 
@@ -165,6 +180,24 @@ public class GoodsDetailDelegate extends LatteDelegate
                 })
                 .build()
                 .post();
+
+        RestClient.builder()
+                .url("http://172.20.10.8:8088/userFavor/select.do")
+                .params("goodId",mGoodsId)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final JSONObject object = JSON.parseObject(response).getJSONObject("data");
+                        if (object != null){
+                            mIconFavor.setTextColor(Color.RED);
+                            isClicked = true;
+                        }else {
+                            mIconFavor.setTextColor(Color.GRAY);
+                        }
+                    }
+                })
+                .build().post();
+
     }
 
     @Override

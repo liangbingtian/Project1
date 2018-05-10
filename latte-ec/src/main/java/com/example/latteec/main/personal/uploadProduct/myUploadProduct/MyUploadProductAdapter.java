@@ -1,5 +1,6 @@
 package com.example.latteec.main.personal.uploadProduct.myUploadProduct;
 
+import android.graphics.Color;
 import android.support.v7.widget.AppCompatTextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -33,13 +34,17 @@ public class MyUploadProductAdapter extends MultipleRecyclerAdapter {
                 final String title = entity.getField(MyUploadProductItemFields.TITLE);
                 final String desc = entity.getField(MyUploadProductItemFields.DESC);
                 final ArrayList<String> bannerImages = entity.getField(MyUploadProductItemFields.BANNERS);
+                final double price = entity.getField(MyUploadProductItemFields.PRICE);
 
                 final AppCompatTextView resultTitle = holder.getView(R.id.item_upload_product_title);
                 final AppCompatTextView resultDesc = holder.getView(R.id.item_upload_product_desc);
+                final AppCompatTextView resultPrice = holder.getView(R.id.item_upload_product_price);
                 final ConvenientBanner<String> resultConvenientBanner = holder.getView(R.id.item_upload_product_banners);
 
-                resultTitle.setText(title);
-                resultDesc.setText(desc);
+                resultTitle.setText("商品名称："+title);
+                resultDesc.setText("商品描述："+desc);
+                resultPrice.setTextColor(Color.YELLOW);
+                resultPrice.setText("商品价格："+String.valueOf(price)+"元");
                 BannerCreator.setDefault(resultConvenientBanner, bannerImages, this);
                 mIsInitBanner = true;
 

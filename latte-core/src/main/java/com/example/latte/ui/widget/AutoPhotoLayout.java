@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +38,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
     private IconTextView mIconAdd = null;
     private LayoutParams mParams = null;
     private LatteDelegate mDelegate = null;
+    private ArrayList<String> bannerImages = null;
     //要删除的图片ID
     private int mDeleteId = 0;
     //选中的图片
@@ -86,6 +88,8 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
         this.mDelegate = delegate;
     }
 
+    public final void setList(ArrayList<String> list){this.bannerImages = list;}
+
     public final void onCropTarget(Uri uri) {
         createNewImageView();
         Glide.with(mDelegate)
@@ -119,6 +123,8 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
                             .setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    bannerImages.remove(mDeleteId);
+                                    Log.e("bannerImage", bannerImages.toString());
                                     //得到要删除的图片
                                     final AppCompatImageView deleteImageView =
                                             findViewById(mDeleteId);

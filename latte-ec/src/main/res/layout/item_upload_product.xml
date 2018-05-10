@@ -2,11 +2,9 @@
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="280dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:background="@mipmap/beijing"
     android:orientation="vertical">
 
@@ -22,8 +20,22 @@
     <android.support.v7.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_upload_product_title"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/item_upload_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="20sp"
@@ -33,10 +45,14 @@
         android:id="@+id/item_upload_product_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center|left"
         android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
+
+
 
 </android.support.v7.widget.LinearLayoutCompat>

@@ -45,6 +45,8 @@ public class UploadProductDelegate extends LatteDelegate {
     TextInputEditText mUserPhone = null;
     @BindView(R2.id.user_upload_product_desc)
     AppCompatEditText mProductDesc = null;
+    @BindView(R2.id.user_upload_product_price)
+    AppCompatEditText mProductPrice = null;
 
     private static ArrayList<String> bannerImages = new ArrayList<>();
 
@@ -60,6 +62,7 @@ public class UploadProductDelegate extends LatteDelegate {
                     .params("name", mUserName.getText().toString())
                     .params("phone", mUserPhone.getText().toString())
                     .params("banners", bannerImagesStr)
+                    .params("price",Double.valueOf(mProductPrice.getText().toString()))
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
@@ -80,6 +83,7 @@ public class UploadProductDelegate extends LatteDelegate {
         final String userPhone = mUserPhone.getText().toString();
         final String productName = mProductName.getText().toString();
         final String productDesc = mProductDesc.getText().toString();
+        final String productPrice = mProductPrice.getText().toString();
 
         boolean isPass = true;
 
@@ -110,6 +114,13 @@ public class UploadProductDelegate extends LatteDelegate {
         } else {
             mProductDesc.setError(null);
         }
+
+        if (productPrice.isEmpty()) {
+            mProductPrice.setError("价格不能为空");
+            isPass = false;
+        } else {
+            mProductPrice.setError(null);
+        }
         return isPass;
     }
 
@@ -121,6 +132,7 @@ public class UploadProductDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         mAutoPhotoLayout.setDelegate(this);
+        mAutoPhotoLayout.setList(bannerImages);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
                     @Override
@@ -137,6 +149,7 @@ public class UploadProductDelegate extends LatteDelegate {
                                         final String url = JSON.parseObject(response).getJSONObject("data")
                                                 .getString("url");
                                         bannerImages.add(url);
+                                        Log.e("bannerImages", bannerImages.toString());
                                     }
                                 })
                                 .build()

@@ -8,5 +8,6 @@ public enum  MyUploadProductItemFields {
 
     TITLE,
     DESC,
-    BANNERS
+    BANNERS,
+    PRICE
 }

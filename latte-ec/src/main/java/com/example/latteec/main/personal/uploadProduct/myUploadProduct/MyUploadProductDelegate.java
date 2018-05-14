@@ -53,5 +53,6 @@ public class MyUploadProductDelegate extends LatteDelegate implements ISuccess{
         mRecycler.setLayoutManager(manager);
         mAdapter = new MyUploadProductAdapter(data);
         mRecycler.setAdapter(mAdapter);
+        mRecycler.addOnItemTouchListener(MyUploadProductItemClickListener.create(this));
     }
 }

@@ -26,6 +26,7 @@ public class MyUploadProductDataConverter extends DataConverter {
             final String desc = data.getString("desc");
             final JSONArray banners = data.getJSONArray("banners");
             final double price = data.getDouble("price");
+            final int id = data.getInteger("id");
 
             final ArrayList<String> bannerImages = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class MyUploadProductDataConverter extends DataConverter {
                     .setField(MyUploadProductItemFields.TITLE, title)
                     .setField(MyUploadProductItemFields.DESC, desc)
                     .setField(MyUploadProductItemFields.PRICE, price)
+                    .setField(MyUploadProductItemFields.ID,id)
                     .setField(MyUploadProductItemFields.BANNERS, bannerImages)
                     .build();
             ENTITIES.add(entity);

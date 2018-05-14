@@ -237,7 +237,9 @@ public class GoodsDetailDelegate extends LatteDelegate
 
     private void initData() {
         RestClient.builder()
-                .url("goods_detail_data_"+mGoodsId+".json")
+//                .url("goods_detail_data_"+mGoodsId+".json")
+                .url("http://172.20.10.8:8088/userDetail/search.do")
+                .params("goodId",mGoodsId)
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override
@@ -251,7 +253,7 @@ public class GoodsDetailDelegate extends LatteDelegate
                     }
                 })
                 .build()
-                .get();
+                .post();
     }
 
     private void initGoodsInfo(JSONObject data) {

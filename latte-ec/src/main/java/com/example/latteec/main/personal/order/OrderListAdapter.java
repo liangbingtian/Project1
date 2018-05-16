@@ -41,11 +41,13 @@ public class OrderListAdapter extends MultipleRecyclerAdapter{
                 final AppCompatTextView  title = holder.getView(R.id.tv_order_list_title);
                 final AppCompatTextView  price = holder.getView(R.id.tv_order_list_price);
                 final AppCompatTextView  time = holder.getView(R.id.tv_order_list_time);
+                final AppCompatTextView address = holder.getView(R.id.tv_order_address);
 
                 final String titleVal = entity.getField(OrderItemFields.ORDERNO);
                 final String timeVal = entity.getField(OrderItemFields.TIME);
                 final Double priceVal = entity.getField(OrderItemFields.PRICE);
                 final String imageUrl = entity.getField(MultipleFields.IMAGE_URL);
+                final String addressVal = entity.getField(OrderItemFields.ADDRESS);
 
                 Glide.with(mContext)
                         .load(imageUrl)
@@ -53,8 +55,9 @@ public class OrderListAdapter extends MultipleRecyclerAdapter{
                         .into(imageView);
 
                 title.setText(titleVal);
-                price.setText("总价:"+String.valueOf(priceVal));
-                time.setText("时间:"+timeVal);
+                price.setText("总价: "+String.valueOf(priceVal));
+                time.setText("时间: "+timeVal);
+                address.setText("收货地址: "+addressVal);
 
                 break;
             default:

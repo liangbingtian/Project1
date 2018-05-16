@@ -17,6 +17,7 @@ import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.latteec.R;
+import com.example.latteec.detail.GoodsDetailDelegate;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.List;
@@ -178,6 +179,16 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                 })
                                 .build()
                                 .post();
+                    }
+                });
+
+                imageThumb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mCartItemListener != null) {
+                            final int goodId = entity.getField(MultipleFields.ID);
+                            mCartItemListener.onThumbClick(goodId);
+                        }
                     }
                 });
 

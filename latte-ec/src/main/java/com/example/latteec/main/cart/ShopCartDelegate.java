@@ -21,6 +21,8 @@ import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.R;
 import com.example.latteec.R2;
+import com.example.latteec.detail.GoodsDetailDelegate;
+import com.example.latteec.main.EcBottomDelegate;
 import com.example.latteec.pay.FastPay;
 import com.example.latteec.pay.IAlPayResultListener;
 import com.joanzapata.iconify.widget.IconTextView;
@@ -110,6 +112,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
         }
         double price = Double.valueOf(mTvTotalPrice.getText().toString());
         mTvTotalPrice.setText(String.valueOf(price - deleteTotal));
+        checkItemCount();
     }
 
     @OnClick(R2.id.tv_top_shop_cart_clear)
@@ -169,7 +172,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
             tvToBuy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "该购物了！", Toast.LENGTH_SHORT).show();
+                    getParentDelegate().getSupportDelegate().start(new EcBottomDelegate());
                 }
             });
             mRecyclerView.setVisibility(View.GONE);
@@ -212,6 +215,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+//        final EcBottomDelegate ecBottomDelegate = getParentDelegate();
+//        mRecyclerView.addOnItemTouchListener(ShopCartItemClickListener.create(ecBottomDelegate));
         mTotalPrice = mAdapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(mTotalPrice));
         checkItemCount();
@@ -221,6 +226,12 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+    @Override
+    public void onThumbClick(int goodId) {
+        final GoodsDetailDelegate delegate = GoodsDetailDelegate.create(goodId);
+        getParentDelegate().getSupportDelegate().start(delegate);
     }
 
     @Override

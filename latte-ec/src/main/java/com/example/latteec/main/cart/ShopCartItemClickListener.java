@@ -1,4 +1,4 @@
-package com.example.latteec.main.SearchResult;
+package com.example.latteec.main.cart;
 
 import android.view.View;
 
@@ -10,19 +10,18 @@ import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latteec.detail.GoodsDetailDelegate;
 
 /**
- * Created by liangbingtian on 2018/4/28.
+ * Created by liangbingtian on 2018/5/16.
  */
 
-public class SearchResultItemClickListener extends SimpleClickListener{
-
+public class ShopCartItemClickListener extends SimpleClickListener{
     private final LatteDelegate DELEGATE;
 
-    public SearchResultItemClickListener(LatteDelegate delegate) {
+    public ShopCartItemClickListener(LatteDelegate delegate) {
         DELEGATE = delegate;
     }
 
-    public static SearchResultItemClickListener create(LatteDelegate delegate){
-        return new SearchResultItemClickListener(delegate);
+    public static ShopCartItemClickListener create(LatteDelegate delegate){
+        return new ShopCartItemClickListener(delegate);
     }
 
     @Override

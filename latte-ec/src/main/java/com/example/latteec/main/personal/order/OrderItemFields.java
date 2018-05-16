@@ -8,6 +8,7 @@ public enum  OrderItemFields {
 
     PRICE,
     TIME,
-    ORDERNO
+    ORDERNO,
+    ADDRESS
 
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="150dp"
     android:layout_marginBottom="2dp"
     android:background="@android:color/white"
     android:orientation="horizontal">
@@ -14,8 +14,8 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/image_order_list"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             tools:ignore="RtlHardcoded" />
     </FrameLayout>
@@ -61,6 +61,16 @@
                 android:text="time"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_order_address"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="address"
+            tools:ignore="NestedWeights" />
     </LinearLayout>
 
     <com.joanzapata.iconify.widget.IconTextView

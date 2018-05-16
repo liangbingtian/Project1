@@ -7,4 +7,6 @@ package com.example.latteec.main.cart;
 public interface ICartItemListener {
 
     void onItemClick(double itemTotalPrice);
+
+    void onThumbClick(int goodId);
 }

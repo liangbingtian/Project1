@@ -117,7 +117,8 @@ public class FastPay implements View.OnClickListener {
                     .build()
                     .post();
             mDialog.cancel();
-            delegate.getParentDelegate().getSupportDelegate().start(new SelectAddressDelegate());
+            SelectAddressDelegate selectAddressDelegate = SelectAddressDelegate.create(mOrderId);
+            delegate.getParentDelegate().getSupportDelegate().start(selectAddressDelegate);
 
         } else if (id == R.id.btn_dialog_pay_wechat) {
             mDialog.cancel();

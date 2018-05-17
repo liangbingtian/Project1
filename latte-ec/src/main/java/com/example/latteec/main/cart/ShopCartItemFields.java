@@ -11,5 +11,6 @@ enum ShopCartItemFields {
     COUNT,
     PRICE,
     IS_SELECTED,
-    POSITION
+    POSITION,
+    TOTALPRICE
 }

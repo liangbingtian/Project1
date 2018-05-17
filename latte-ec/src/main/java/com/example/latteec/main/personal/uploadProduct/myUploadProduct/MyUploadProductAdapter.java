@@ -42,7 +42,7 @@ public class MyUploadProductAdapter extends MultipleRecyclerAdapter {
                 final ConvenientBanner<String> resultConvenientBanner = holder.getView(R.id.item_upload_product_banners);
 
                 resultTitle.setText("商品名称："+title);
-                resultDesc.setText("商品描述："+desc);
+//                resultDesc.setText("商品描述："+desc);
                 resultPrice.setTextColor(Color.YELLOW);
                 resultPrice.setText("商品价格："+String.valueOf(price)+"元");
                 BannerCreator.setDefault(resultConvenientBanner, bannerImages, this);

@@ -46,6 +46,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
             final double total = price * count;
             mTotalPrice = mTotalPrice + total;
         }
+
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
     }
@@ -59,6 +60,9 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
     }
     public double getTotalPrice(){
         return mTotalPrice;
+    }
+    public void setTotalPrice(double price){
+        this.mTotalPrice = price;
     }
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
@@ -130,11 +134,10 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
                             int countNum = Integer.parseInt(tvCount.getText().toString());
                             countNum--;
+                            entity.setField(ShopCartItemFields.COUNT,countNum);
                             tvCount.setText(String.valueOf(countNum));
                             if (mCartItemListener != null) {
-                                mTotalPrice = mTotalPrice - price;
-                                final double itemTotal = countNum * price;
-                                mCartItemListener.onItemClick(itemTotal);
+                                mCartItemListener.onItemClickMin(price);
                             }
                             RestClient.builder()
                                     .url("http://172.20.10.8:8088/userCart/change.do")
@@ -160,11 +163,11 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                         final int goodId = entity.getField(MultipleFields.ID);
                         int countNum = Integer.parseInt(tvCount.getText().toString());
                         countNum++;
+                        entity.setField(ShopCartItemFields.COUNT,countNum);
                         tvCount.setText(String.valueOf(countNum));
                         if (mCartItemListener != null) {
-                            mTotalPrice = mTotalPrice + price;
-                            final double itemTotal = countNum * price;
-                            mCartItemListener.onItemClick(itemTotal);
+
+                            mCartItemListener.onItemClickPlus(price);
                         }
                         RestClient.builder()
                                 .url("http://172.20.10.8:8088/userCart/change.do")

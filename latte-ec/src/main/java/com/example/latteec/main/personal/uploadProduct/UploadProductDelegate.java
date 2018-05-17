@@ -15,6 +15,7 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.net.RestClient;
 import com.example.latte.net.callback.ISuccess;
 import com.example.latte.ui.widget.AutoPhotoLayout;
+import com.example.latte.ui.widget.IUploadCallBack;
 import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
  * Created by liangbingtian on 2018/5/4.
  */
 
-public class UploadProductDelegate extends LatteDelegate {
+public class UploadProductDelegate extends LatteDelegate implements IUploadCallBack{
 
     @BindView(R2.id.custom_auto_photo_layout)
     AutoPhotoLayout mAutoPhotoLayout = null;
@@ -132,7 +133,7 @@ public class UploadProductDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         mAutoPhotoLayout.setDelegate(this);
-        mAutoPhotoLayout.setList(bannerImages);
+        mAutoPhotoLayout.setUploadCallBack(this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
                     @Override
@@ -157,5 +158,11 @@ public class UploadProductDelegate extends LatteDelegate {
                         mAutoPhotoLayout.onCropTarget(args);
                     }
                 });
+    }
+
+    @Override
+    public void removePhoto(int deleteId) {
+        bannerImages.remove(deleteId);
+        Log.e("bannerImage", bannerImages.toString());
     }
 }

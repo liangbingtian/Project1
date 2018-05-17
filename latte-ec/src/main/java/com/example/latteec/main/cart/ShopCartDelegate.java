@@ -46,7 +46,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     //购物车数量标记
     private int mCurrentCount = 0;
     private int mTotalCount = 0;
-    private double mTotalPrice = 0.00;
+    private static double mTotalPrice = 0.00;
+
 
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView = null;
@@ -79,7 +80,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
 
     @OnClick(R2.id.tv_top_shop_cart_remove_selected)
     void onClickRemoveSelectedItem() {
-        double deleteTotal = 0.00;
+         double deleteTotal = 0.00;
         final List<MultipleItemEntity> data = mAdapter.getData();
         //要删除的数据
         List<MultipleItemEntity> deleteEntities = new ArrayList<>();
@@ -110,8 +111,10 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
                 }
             }
         }
-        double price = Double.valueOf(mTvTotalPrice.getText().toString());
-        mTvTotalPrice.setText(String.valueOf(price - deleteTotal));
+        double price = Double.valueOf(mAdapter.getTotalPrice());
+        double lastPrice = price-deleteTotal;
+        mTvTotalPrice.setText(String.valueOf(lastPrice));
+        mAdapter.setTotalPrice(lastPrice);
         checkItemCount();
     }
 
@@ -190,18 +193,24 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mIconSelectAll.setTag(0);
-
-    }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
         RestClient.builder()
                 .url("http://172.20.10.8:8088/userCart/list.do")
                 .loader(getContext())
                 .success(this)
                 .build()
                 .get();
+
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+//        RestClient.builder()
+//                .url("http://172.20.10.8:8088/userCart/list.do")
+//                .loader(getContext())
+//                .success(this)
+//                .build()
+//                .get();
     }
 
     @Override
@@ -222,10 +231,23 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
         checkItemCount();
     }
 
+
     @Override
-    public void onItemClick(double itemTotalPrice) {
-        final double price = mAdapter.getTotalPrice();
-        mTvTotalPrice.setText(String.valueOf(price));
+    public void onItemClickPlus(double itemTotalPrice) {
+        double total = mAdapter.getTotalPrice();
+        total = total+itemTotalPrice;
+        mAdapter.setTotalPrice(total);
+        Log.e("price", String.valueOf(total));
+        mTvTotalPrice.setText(String.valueOf(total));
+    }
+
+    @Override
+    public void onItemClickMin(double itemTotalPrice) {
+        double total = mAdapter.getTotalPrice();
+        total = total-itemTotalPrice;
+        mAdapter.setTotalPrice(total);
+        Log.e("price", String.valueOf(total));
+        mTvTotalPrice.setText(String.valueOf(total));
     }
 
     @Override

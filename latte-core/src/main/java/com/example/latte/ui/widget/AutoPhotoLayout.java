@@ -66,6 +66,12 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
             .centerCrop()
             .diskCacheStrategy(DiskCacheStrategy.NONE);
 
+    private static  IUploadCallBack mCallback = null;
+
+    public final void setUploadCallBack(IUploadCallBack callback){
+        this.mCallback = callback;
+    }
+
     public AutoPhotoLayout(Context context) {
         this(context, null);
     }
@@ -123,8 +129,9 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
                             .setOnClickListener(new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    bannerImages.remove(mDeleteId);
-                                    Log.e("bannerImage", bannerImages.toString());
+                                    if (mCallback!=null){
+                                    mCallback.removePhoto(mDeleteId);
+                                    }
                                     //得到要删除的图片
                                     final AppCompatImageView deleteImageView =
                                             findViewById(mDeleteId);

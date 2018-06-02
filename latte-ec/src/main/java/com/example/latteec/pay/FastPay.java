@@ -121,7 +121,17 @@ public class FastPay implements View.OnClickListener {
             delegate.getParentDelegate().getSupportDelegate().start(selectAddressDelegate);
 
         } else if (id == R.id.btn_dialog_pay_wechat) {
+            adapter.getData().clear();
+            mTvTotalPrice.setText("0.0");
+            adapter.notifyDataSetChanged();
+            RestClient.builder()
+                    .url("http://172.20.10.8:8088/userCart/deleteAll.do")
+                    .loader(mActivity)
+                    .build()
+                    .post();
             mDialog.cancel();
+            SelectAddressDelegate selectAddressDelegate = SelectAddressDelegate.create(mOrderId);
+            delegate.getParentDelegate().getSupportDelegate().start(selectAddressDelegate);
         } else if (id == R.id.btn_dialog_pay_cancel) {
             mDialog.cancel();
         }

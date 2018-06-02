@@ -140,11 +140,16 @@ public class GoodsDetailDelegate extends LatteDelegate
         BezierAnimation.addCart(this,mRlAddShopCart,mIconShopCart,animImg,this);
     }
 
-    @OnClick(R2.id.icon_shop_cart)
+    @OnClick(R2.id.rl_enter_shop_cart)
     void onClickShopCart(){
 
         EcBottomDelegate delegate = EcBottomDelegate.create(2);
         getSupportDelegate().startWithPop(delegate);
+    }
+
+    @OnClick(R2.id.icon_goods_back)
+    void clickBack(){
+        getSupportDelegate().start(new EcBottomDelegate());
     }
 
     private void setShopCartCount(JSONObject data){

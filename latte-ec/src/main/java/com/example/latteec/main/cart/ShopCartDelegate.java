@@ -280,4 +280,5 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess
     public void onPayConnectError() {
 
     }
+    
 }
